@@ -9,6 +9,7 @@ use App\Http\Requests\Api\UserShowRequest;
 use App\Services\User\UserService;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserShowResource;
+use App\Http\Resources\UserStoreResources;
 
 class UserController extends Controller
 {
@@ -26,22 +27,13 @@ class UserController extends Controller
     {
         $user = $service->storeUser($request->validated());
 
-        return response()->json([
-            'success' => true,
-            'user_id' => $user->id,
-            'message' => 'New user successfully registered',
-        ], 201);
+        return new UserStoreResources($user);
     }
 
     public function show(UserShowRequest $request, UserService $service)
     {
         $user = $service->show($request->validated());
 
-        return response()->json([
-            'success' => true,
-            'user' => [
-                new UserShowResource($user)
-            ]
-        ], 200);
+        return new UserShowResource($user);
     }
 }

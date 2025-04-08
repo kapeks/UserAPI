@@ -6,6 +6,8 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class UserShowResource extends JsonResource
 {
+    // Отключаем автоматическую обертку
+    public static $wrap = null;
     /**
      * Transform the resource into an array.
      *
@@ -23,5 +25,13 @@ class UserShowResource extends JsonResource
             'position_id' => $this->position_id,
             'photo' => asset($this->photo),
         ];
+    }
+
+    public function toResponse($request)
+    {
+        return response()->json([
+            'success' => true,
+            'user' => $this->toArray($request),
+        ], 200);
     }
 }

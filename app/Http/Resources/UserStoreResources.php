@@ -27,6 +27,6 @@ class UserStoreResources extends JsonResource
 
     public function withResponse($request, $response)
     {
-        $response->setStatusCode(201); // или 201, если нужно
+        $response->setStatusCode(201); 
     }
 }

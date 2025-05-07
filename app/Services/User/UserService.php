@@ -7,6 +7,7 @@ use App\Services\Image\ImageResizerService;
 use App\Services\Image\ImageOptimizerService;
 use App\Exceptions\ConflictException;
 use App\Exceptions\NotFoundException;
+use App\Jobs\ImageOptimizerJob;
 
 
 class UserService
@@ -36,15 +37,16 @@ class UserService
 
         // Изменяем размер фото
         $resizerImagePath = ImageResizerService::change('storage/' . $photoPath);
-        $optimizerImagePath = ImageOptimizerService::optimizeImageWithTinyPng($resizerImagePath);
 
         $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'phone' => $data['phone'],
             'position_id' => $data['position_id'],
-            'photo' => $optimizerImagePath,
+            'photo' => $resizerImagePath,
         ]);
+
+        ImageOptimizerJob::dispatch($resizerImagePath, $user->id);
 
         return $user;
     }

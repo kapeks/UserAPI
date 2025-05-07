@@ -50,6 +50,8 @@ UserAPI - функционал для взаимодействиями с пол
     
     DB_PASSWORD=
 
+    QUEUE_CONNECTION=database
+
     APP_URL=http://example.com
 
     API_KEY_TINIFY=lMRrmbDljlf7fdrGzYt9cgV196bDfgh  (нужно создать свой уникальный ключ на сайте  https://tinypng.com/)
@@ -63,6 +65,11 @@ UserAPI - функционал для взаимодействиями с пол
 
     ```bash
     php artisan migrate --seed
+    ```
+6.  запустить воркер
+
+    ```bash
+    php artisan queue:work
     ```
 ### Примеры Api запросов
 
